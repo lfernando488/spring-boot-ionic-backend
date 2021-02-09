@@ -1,6 +1,7 @@
 package com.ajaxdev.cursomc;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.ajaxdev.cursomc.domain.Cidade;
 import com.ajaxdev.cursomc.domain.Cliente;
 import com.ajaxdev.cursomc.domain.Endereco;
 import com.ajaxdev.cursomc.domain.Estado;
+import com.ajaxdev.cursomc.domain.ItemPedido;
 import com.ajaxdev.cursomc.domain.Pagamento;
 import com.ajaxdev.cursomc.domain.PagamentoComBoleto;
 import com.ajaxdev.cursomc.domain.PagamentoComCartao;
@@ -25,6 +27,7 @@ import com.ajaxdev.cursomc.repositories.CidadeRepository;
 import com.ajaxdev.cursomc.repositories.ClienteRepository;
 import com.ajaxdev.cursomc.repositories.EnderecoRepository;
 import com.ajaxdev.cursomc.repositories.EstadoRepository;
+import com.ajaxdev.cursomc.repositories.ItemPedidoRepository;
 import com.ajaxdev.cursomc.repositories.PagamentoRepository;
 import com.ajaxdev.cursomc.repositories.PedidoRepository;
 import com.ajaxdev.cursomc.repositories.ProdutoRepository;
@@ -55,6 +58,9 @@ public class CursomcApplication implements CommandLineRunner{
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -120,6 +126,19 @@ public class CursomcApplication implements CommandLineRunner{
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 		
 	}
 
