@@ -1,7 +1,6 @@
 package com.ajaxdev.cursomc.services;
 
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ajaxdev.cursomc.domain.Categoria;
@@ -20,5 +19,8 @@ public class CategoriaService {
 		 "Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 		} 
 
-	
+	public Categoria insert(Categoria categoria) {
+		categoria.setId(null);
+		return repo.save(categoria);
+	}
 }
